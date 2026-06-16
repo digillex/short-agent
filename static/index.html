@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Short Agent — DIGI-TV</title>
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+
+  <header>
+    <div class="header-inner">
+      <div class="logo">
+        <span class="logo-icon">▶</span>
+        <div>
+          <h1>Short Agent</h1>
+          <p class="subtitle">Semi-automatic Shorts &amp; Reels package generator</p>
+        </div>
+      </div>
+      <span class="channel-badge">DIGI-TV</span>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- Status Card -->
+    <section class="card status-card" id="statusCard">
+      <div class="card-header">
+        <h2>System Status</h2>
+        <button class="btn btn-sm" id="checkHealthBtn" onclick="checkHealth()">Check Health</button>
+      </div>
+      <div class="status-grid" id="statusGrid">
+        <div class="status-item">
+          <span class="status-dot dot-idle" id="dotApi"></span>
+          <div>
+            <div class="status-label">API</div>
+            <div class="status-value" id="statusApi">—</div>
+          </div>
+        </div>
+        <div class="status-item">
+          <span class="status-dot dot-idle" id="dotKey"></span>
+          <div>
+            <div class="status-label">OpenAI Key</div>
+            <div class="status-value" id="statusKey">—</div>
+          </div>
+        </div>
+        <div class="status-item">
+          <span class="status-dot dot-idle" id="dotOutput"></span>
+          <div>
+            <div class="status-label">Output Folder</div>
+            <div class="status-value" id="statusOutput">—</div>
+          </div>
+        </div>
+      </div>
+      <div class="status-message hidden" id="statusMessage"></div>
+    </section>
+
+    <!-- Generate Form -->
+    <section class="card">
+      <div class="card-header">
+        <h2>Generate Packages</h2>
+      </div>
+
+      <form id="generateForm" onsubmit="generatePackages(event)">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="numPackages">Number of packages</label>
+            <input type="number" id="numPackages" min="1" max="10" value="5" required />
+          </div>
+          <div class="form-group">
+            <label for="durationSec">Duration (seconds)</label>
+            <input type="number" id="durationSec" min="30" max="90" value="60" required />
+          </div>
+          <div class="form-group">
+            <label for="language">Language</label>
+            <input type="text" id="language" value="English" required />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="contentTheme">Content theme</label>
+          <input
+            type="text"
+            id="contentTheme"
+            value="Digital infotainment, technology education, AI, automation, mobility, engineering, and social impact"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="extraInstruction">Extra instruction <span class="optional">(optional)</span></label>
+          <textarea id="extraInstruction" rows="2" placeholder="e.g. Focus on AI tools released this week">Find relevant trending or evergreen ideas suitable for DIGI-TV.</textarea>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary" id="generateBtn">
+            <span class="btn-icon">⚡</span> Generate Packages
+          </button>
+        </div>
+      </form>
+
+      <div class="loader hidden" id="loader">
+        <div class="spinner"></div>
+        <p>Generating content packages with OpenAI… this may take 20–40 seconds.</p>
+      </div>
+
+      <div class="error-box hidden" id="errorBox"></div>
+    </section>
+
+    <!-- Results -->
+    <section id="resultsSection" class="hidden">
+      <div class="results-meta card" id="resultsMeta"></div>
+      <div id="packagesContainer"></div>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>Short Agent v1.0.0 &nbsp;·&nbsp; <a href="/docs" target="_blank">Swagger API Docs</a></p>
+  </footer>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
